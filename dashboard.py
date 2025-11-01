@@ -14,50 +14,117 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for better styling
+# Custom CSS for cleaner styling
 st.markdown("""
     <style>
+    /* Main layout improvements */
+    .main .block-container {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        max-width: 1400px;
+    }
+    
+    /* Metric card styling */
     .metric-card {
         padding: 1.5rem;
-        border-radius: 8px;
+        border-radius: 12px;
         background-color: #ffffff;
-        border: 1px solid #e0e0e0;
-        margin: 1rem 0;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        transition: box-shadow 0.3s ease;
+        border: 1px solid #e5e7eb;
+        margin: 0 0 1.5rem 0;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        transition: all 0.2s ease;
     }
     .metric-card:hover {
-        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        border-color: #d1d5db;
     }
+    
+    /* Status colors */
     .status-on-track { 
-        color: #00cc00; 
-        font-weight: bold; 
+        color: #059669; 
+        font-weight: 600; 
     }
     .status-at-risk { 
-        color: #ff9900; 
-        font-weight: bold; 
+        color: #d97706; 
+        font-weight: 600; 
     }
     .status-off-track { 
-        color: #cc0000; 
-        font-weight: bold; 
+        color: #dc2626; 
+        font-weight: 600; 
     }
+    
+    /* Metric header */
     .metric-header {
-        font-size: 1.1rem;
+        font-size: 1rem;
         font-weight: 600;
-        color: #1f1f1f;
-        margin-bottom: 0.5rem;
-        border-bottom: 2px solid #f0f0f0;
-        padding-bottom: 0.5rem;
-    }
-    .metric-value-row {
-        display: flex;
-        justify-content: space-between;
-        margin: 0.75rem 0;
-    }
-    .category-header {
-        font-size: 1.3rem;
-        font-weight: 700;
+        color: #111827;
         margin-bottom: 1rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid #f3f4f6;
+        line-height: 1.4;
+    }
+    
+    /* Cleaner h1, h2, h3 */
+    h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 1rem;
+    }
+    h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #1f2937;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+    }
+    h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #374151;
+        margin-top: 1.5rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    /* Sidebar improvements */
+    .css-1d391kg {
+        padding-top: 2rem;
+    }
+    
+    /* Button and input improvements */
+    .stButton>button {
+        border-radius: 6px;
+        font-weight: 500;
+    }
+    
+    /* Metric value display */
+    .metric-container {
+        background-color: #f9fafb;
+        border-radius: 8px;
+        padding: 0.75rem;
+        margin: 0.5rem 0;
+    }
+    
+    /* Progress bar container */
+    .progress-container {
+        margin: 1rem 0;
+    }
+    
+    /* Remove default Streamlit margins */
+    .element-container {
+        margin-bottom: 1rem;
+    }
+    
+    /* Category header */
+    .category-header-box {
+        margin: 3rem 0 2rem 0;
+    }
+    
+    /* Cleaner spacing */
+    hr {
+        margin: 2rem 0;
+        border: none;
+        border-top: 1px solid #e5e7eb;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -353,23 +420,109 @@ def render_methodology_page():
     
     st.subheader("Metric-Specific Rationale")
     st.markdown("""
-    Below are detailed explanations for key metrics tracked in the Learnvia initiative:
+    Below are detailed explanations for all metrics tracked in the Learnvia initiative, organized by category:
     """)
     
     rationale_dict = load_metric_rationale()
     
-    if rationale_dict:
-        for metric_name, rationale_info in rationale_dict.items():
-            with st.expander(f"**{metric_name}**"):
-                st.markdown(f"""
-                **Rationale:** {rationale_info.get('rationale', 'N/A')}
+    # Load expectations to get metric categories
+    try:
+        if os.path.exists("Expectations.csv"):
+            expectations_df = pd.read_csv("Expectations.csv")
+            if 'Category' in expectations_df.columns:
+                # Organize metrics by category
+                categories = {}
+                for _, row in expectations_df.iterrows():
+                    cat = row.get('Category', 'Uncategorized')
+                    metric = row.get('Metric', '')
+                    if cat not in categories:
+                        categories[cat] = []
+                    if metric:
+                        categories[cat].append(metric)
                 
-                **Target Rationale:** {rationale_info.get('target_rationale', 'N/A')}
-                
-                **Data Availability:** {rationale_info.get('data_availability', 'N/A')}
-                """)
-    else:
-        st.info("Metric rationale file not found. Create metric_rationale.json for detailed explanations.")
+                # Display metrics by category
+                for category, metrics_list in categories.items():
+                    st.markdown(f"### {category}")
+                    for metric in metrics_list:
+                        rationale_info = rationale_dict.get(metric, {})
+                        if rationale_info:
+                            with st.expander(f"**{metric}**", expanded=False):
+                                st.markdown(f"""
+                                **Why this metric?**
+                                
+                                {rationale_info.get('rationale', 'No rationale available.')}
+                                
+                                **Target Rationale:**
+                                
+                                {rationale_info.get('target_rationale', 'No target rationale available.')}
+                                
+                                **Data Availability:**
+                                
+                                {rationale_info.get('data_availability', 'Data availability information not specified.')}
+                                """)
+                        else:
+                            # Show metric even if no rationale yet
+                            with st.expander(f"**{metric}**", expanded=False):
+                                st.info("Rationale information not yet available for this metric.")
+                    st.markdown("<br>", unsafe_allow_html=True)
+            else:
+                # No category column, show all metrics
+                if rationale_dict:
+                    for metric_name, rationale_info in rationale_dict.items():
+                        with st.expander(f"**{metric_name}**", expanded=False):
+                            st.markdown(f"""
+                            **Why this metric?**
+                            
+                            {rationale_info.get('rationale', 'N/A')}
+                            
+                            **Target Rationale:**
+                            
+                            {rationale_info.get('target_rationale', 'N/A')}
+                            
+                            **Data Availability:**
+                            
+                            {rationale_info.get('data_availability', 'N/A')}
+                            """)
+                else:
+                    st.info("Metric rationale file not found. Create metric_rationale.json for detailed explanations.")
+        else:
+            # Fallback if no CSV file
+            if rationale_dict:
+                for metric_name, rationale_info in rationale_dict.items():
+                    with st.expander(f"**{metric_name}**", expanded=False):
+                        st.markdown(f"""
+                        **Why this metric?**
+                        
+                        {rationale_info.get('rationale', 'N/A')}
+                        
+                        **Target Rationale:**
+                        
+                        {rationale_info.get('target_rationale', 'N/A')}
+                        
+                        **Data Availability:**
+                        
+                        {rationale_info.get('data_availability', 'N/A')}
+                        """)
+            else:
+                st.info("Metric rationale file not found. Create metric_rationale.json for detailed explanations.")
+    except Exception as e:
+        st.warning(f"Could not load metric categories: {e}")
+        if rationale_dict:
+            for metric_name, rationale_info in rationale_dict.items():
+                with st.expander(f"**{metric_name}**", expanded=False):
+                    st.markdown(f"""
+                    **Why this metric?**
+                    
+                    {rationale_info.get('rationale', 'N/A')}
+                    
+                    **Target Rationale:**
+                    
+                    {rationale_info.get('target_rationale', 'N/A')}
+                    
+                    **Data Availability:**
+                    
+                    {rationale_info.get('data_availability', 'N/A')}
+                    """)
     
     st.markdown("---")
     
@@ -388,8 +541,12 @@ def render_methodology_page():
     """)
 
 def main():
-    st.title("Program Impact Dashboard MVP")
-    st.markdown("**Pillar 2: BMGF Impact** - Visualizing initiative performance against Ambition 2045 targets")
+    st.title("Program Impact Dashboard")
+    st.markdown("""
+    <div style="color: #6b7280; font-size: 1rem; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid #e5e7eb;">
+        <strong style="color: #374151;">Pillar 2: BMGF Impact</strong> — Visualizing initiative performance against Ambition 2045 targets
+    </div>
+    """, unsafe_allow_html=True)
     
     # Create tabs
     tab1, tab2 = st.tabs(["Dashboard", "Methodology"])
@@ -440,8 +597,10 @@ def main():
     rationale_dict = load_metric_rationale()
     
     # Main dashboard
+    st.sidebar.markdown("<div style='height: 0.5rem;'></div>", unsafe_allow_html=True)
     st.sidebar.markdown("---")
     st.sidebar.header("Filters")
+    st.sidebar.markdown("<div style='height: 0.5rem;'></div>", unsafe_allow_html=True)
     
     # Initiative filter
     initiatives = sorted(expectations['Initiative ID'].unique())
@@ -490,19 +649,21 @@ def main():
                     # Category header with cleaner style
                     bucket_info = buckets.get(category, {'emoji': '', 'color': '#808080', 'description': ''})
                     st.markdown(f"""
-                    <div style='background: linear-gradient(90deg, {bucket_info['color']}15 0%, {bucket_info['color']}05 100%); 
-                                 padding: 1.25rem 1.5rem; 
-                                 border-radius: 8px; 
-                                 border-left: 5px solid {bucket_info['color']}; 
-                                 margin: 2rem 0 1.5rem 0;
-                                 box-shadow: 0 2px 4px rgba(0,0,0,0.05);'>
+                    <div class="category-header-box" style='background: linear-gradient(135deg, {bucket_info['color']}08 0%, {bucket_info['color']}03 100%); 
+                                 padding: 1.5rem 2rem; 
+                                 border-radius: 12px; 
+                                 border-left: 4px solid {bucket_info['color']}; 
+                                 margin: 3rem 0 2rem 0;
+                                 box-shadow: 0 1px 3px rgba(0,0,0,0.06);'>
                         <h2 style='color: {bucket_info['color']}; 
-                                    margin: 0 0 0.5rem 0; 
-                                    font-size: 1.4rem;
-                                    font-weight: 700;'>{category}</h2>
+                                    margin: 0 0 0.75rem 0; 
+                                    font-size: 1.5rem;
+                                    font-weight: 700;
+                                    letter-spacing: -0.02em;'>{category}</h2>
                         <p style='margin: 0; 
-                                   color: #666; 
-                                   font-size: 0.95rem;'>{bucket_info['description']}</p>
+                                   color: #6b7280; 
+                                   font-size: 0.95rem;
+                                   line-height: 1.5;'>{bucket_info['description']}</p>
                     </div>
                     """, unsafe_allow_html=True)
                     
@@ -529,25 +690,16 @@ def main():
                                     # Get rationale for this metric
                                     metric_rationale = get_metric_rationale(metric, rationale_dict)
                                     
-                                    # Metric card container with clean styling
+                                    # Metric card container with cleaner styling
                                     st.markdown(f"""
-                                    <div class="metric-card" style="padding: 1.25rem; border-radius: 8px; background-color: #ffffff; border: 1px solid #e0e0e0; margin-bottom: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.08);">
+                                    <div class="metric-card" style="padding: 1.5rem; border-radius: 12px; background-color: #ffffff; border: 1px solid #e5e7eb; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
                                     """, unsafe_allow_html=True)
                                     
                                     # Metric header
                                     st.markdown(f'<div class="metric-header">{metric}</div>', unsafe_allow_html=True)
-                                    st.caption(f"Initiative: {initiative_id}")
+                                    st.caption(f"**Initiative:** {initiative_id}", help=f"Initiative identifier: {initiative_id}")
                                     
-                                    # Show rationale as expandable info
-                                    if metric_rationale.get('rationale') != "No rationale available.":
-                                        with st.expander("Metric Rationale", expanded=False):
-                                            st.markdown(f"**Why this metric?** {metric_rationale['rationale']}")
-                                            if metric_rationale.get('target_rationale'):
-                                                st.markdown(f"**Target rationale:** {metric_rationale['target_rationale']}")
-                                            if metric_rationale.get('data_availability'):
-                                                st.caption(f"Data: {metric_rationale['data_availability']}")
-                                    
-                                    st.markdown("<br>", unsafe_allow_html=True)
+                                    st.markdown("<div style='height: 0.75rem;'></div>", unsafe_allow_html=True)
                                     
                                     if latest_perf is not None:
                                         actual = latest_perf['Actual Value']
@@ -558,62 +710,76 @@ def main():
                                             # Display values in clean grid
                                             col1, col2 = st.columns(2)
                                             with col1:
-                                                st.metric("Baseline", format_value(baseline, metric), help="Starting value")
-                                                st.metric("Actual", format_value(actual, metric), help="Current value")
+                                                st.metric("Baseline", format_value(baseline, metric), help="Starting value", delta=None)
+                                                st.metric("Actual", format_value(actual, metric), help="Current value", delta=None)
                                             with col2:
-                                                st.metric("Target 2030", format_value(target_2030, metric), help="Target value")
-                                                # Progress percentage
-                                                st.metric("Progress", f"{progress:.1f}%", help="Progress toward target")
+                                                st.metric("Target 2030", format_value(target_2030, metric), help="Target value", delta=None)
+                                                # Progress percentage with color
+                                                progress_color_hex = "#059669" if progress >= 80 else "#d97706" if progress >= 50 else "#dc2626"
+                                                st.markdown(f"""
+                                                <div style="padding: 0.5rem 0;">
+                                                    <div style="font-size: 0.875rem; color: #6b7280; margin-bottom: 0.25rem;">Progress</div>
+                                                    <div style="font-size: 1.5rem; font-weight: 600; color: {progress_color_hex};">{progress:.1f}%</div>
+                                                </div>
+                                                """, unsafe_allow_html=True)
                                             
                                             # Progress bar with cleaner style
-                                            st.markdown("<br>", unsafe_allow_html=True)
-                                            progress_color = "#00cc00" if progress >= 80 else "#ff9900" if progress >= 50 else "#cc0000"
+                                            st.markdown("<div style='height: 0.5rem;'></div>", unsafe_allow_html=True)
+                                            progress_color = "#059669" if progress >= 80 else "#d97706" if progress >= 50 else "#dc2626"
                                             st.markdown(f"""
-                                            <div style="background-color: #f0f0f0; border-radius: 10px; height: 20px; margin: 0.5rem 0;">
-                                                <div style="background-color: {progress_color}; width: {progress}%; height: 100%; border-radius: 10px; transition: width 0.3s ease;"></div>
+                                            <div class="progress-container" style="background-color: #f3f4f6; border-radius: 8px; height: 10px; overflow: hidden; margin: 0.75rem 0;">
+                                                <div style="background: linear-gradient(90deg, {progress_color} 0%, {progress_color}dd 100%); width: {progress}%; height: 100%; border-radius: 8px; transition: width 0.3s ease;"></div>
                                             </div>
                                             """, unsafe_allow_html=True)
                                             
-                                            # Status badge
+                                            # Status badge - cleaner design
+                                            status_bg = "#ecfdf5" if progress >= 80 else "#fef3c7" if progress >= 50 else "#fee2e2"
                                             st.markdown(f"""
-                                            <div style="margin: 0.75rem 0; padding: 0.5rem; background-color: {progress_color}20; border-left: 3px solid {progress_color}; border-radius: 4px;">
-                                                <strong>Status:</strong> <span class='status-{status.lower().replace(' ', '-')}'>{status}</span> ({progress:.1f}%)
+                                            <div style="margin: 1rem 0 0.75rem 0; padding: 0.75rem 1rem; background-color: {status_bg}; border-left: 3px solid {progress_color}; border-radius: 6px;">
+                                                <div style="font-size: 0.875rem; color: #6b7280; margin-bottom: 0.25rem;">Status</div>
+                                                <div style="font-size: 1rem; font-weight: 600;">
+                                                    <span class='status-{status.lower().replace(' ', '-')}'>{status}</span>
+                                                    <span style="color: #6b7280; font-weight: 400;"> ({progress:.1f}%)</span>
+                                                </div>
                                             </div>
                                             """, unsafe_allow_html=True)
                                             
-                                            # Delta to target
+                                            # Delta to target - cleaner info box
                                             delta = actual - target_2030
                                             if lower_is_better:
-                                                # For lower-is-better metrics, negative delta is good
                                                 if delta <= 0:
                                                     delta_text = f"{format_value(abs(delta), metric)} below target"
-                                                    delta_color = "#00cc00"
+                                                    delta_color = "#059669"
+                                                    delta_bg = "#ecfdf5"
                                                 else:
                                                     delta_text = f"{format_value(delta, metric)} above target"
-                                                    delta_color = "#cc0000"
+                                                    delta_color = "#dc2626"
+                                                    delta_bg = "#fee2e2"
                                             else:
-                                                # For higher-is-better metrics, positive delta is good
                                                 if delta >= 0:
                                                     delta_text = f"+{format_value(delta, metric)} above target"
-                                                    delta_color = "#00cc00"
+                                                    delta_color = "#059669"
+                                                    delta_bg = "#ecfdf5"
                                                 else:
                                                     delta_text = f"{format_value(abs(delta), metric)} below target"
-                                                    delta_color = "#cc0000"
+                                                    delta_color = "#dc2626"
+                                                    delta_bg = "#fee2e2"
                                             
                                             st.markdown(f"""
-                                            <div style="margin-top: 0.5rem; padding: 0.5rem; background-color: #f8f9fa; border-radius: 4px; font-size: 0.9rem;">
-                                                <strong>Gap to Target:</strong> <span style="color: {delta_color}">{delta_text}</span>
+                                            <div style="margin-top: 0.75rem; padding: 0.75rem 1rem; background-color: {delta_bg}; border-radius: 6px; border: 1px solid {delta_color}20;">
+                                                <div style="font-size: 0.875rem; color: #6b7280; margin-bottom: 0.25rem;">Gap to Target</div>
+                                                <div style="font-size: 0.95rem; font-weight: 600; color: {delta_color};">{delta_text}</div>
                                             </div>
                                             """, unsafe_allow_html=True)
                                         else:
                                             st.warning("Unable to calculate progress (missing baseline or target)")
                                     else:
-                                        st.warning("No performance data available")
+                                        st.info("No performance data available")
                                         col1, col2 = st.columns(2)
                                         with col1:
-                                            st.metric("Baseline", format_value(baseline, metric))
+                                            st.metric("Baseline", format_value(baseline, metric), delta=None)
                                         with col2:
-                                            st.metric("Target 2030", format_value(target_2030, metric))
+                                            st.metric("Target 2030", format_value(target_2030, metric), delta=None)
                                     
                                     # Close metric card div
                                     st.markdown("</div>", unsafe_allow_html=True)
@@ -644,25 +810,16 @@ def main():
                             # Get rationale for this metric
                             metric_rationale = get_metric_rationale(metric, rationale_dict)
                             
-                            # Metric card container with clean styling
+                            # Metric card container with cleaner styling
                             st.markdown(f"""
-                            <div class="metric-card" style="padding: 1.25rem; border-radius: 8px; background-color: #ffffff; border: 1px solid #e0e0e0; margin-bottom: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.08);">
+                            <div class="metric-card" style="padding: 1.5rem; border-radius: 12px; background-color: #ffffff; border: 1px solid #e5e7eb; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
                             """, unsafe_allow_html=True)
                             
                             # Metric header
                             st.markdown(f'<div class="metric-header">{metric}</div>', unsafe_allow_html=True)
-                            st.caption(f"Initiative: {initiative_id}")
+                            st.caption(f"**Initiative:** {initiative_id}", help=f"Initiative identifier: {initiative_id}")
                             
-                            # Show rationale as expandable info
-                            if metric_rationale.get('rationale') != "No rationale available.":
-                                with st.expander("Metric Rationale", expanded=False):
-                                    st.markdown(f"**Why this metric?** {metric_rationale['rationale']}")
-                                    if metric_rationale.get('target_rationale'):
-                                        st.markdown(f"**Target rationale:** {metric_rationale['target_rationale']}")
-                                    if metric_rationale.get('data_availability'):
-                                        st.caption(f"Data: {metric_rationale['data_availability']}")
-                            
-                            st.markdown("<br>", unsafe_allow_html=True)
+                            st.markdown("<div style='height: 0.75rem;'></div>", unsafe_allow_html=True)
                             
                             if latest_perf is not None:
                                 actual = latest_perf['Actual Value']
@@ -673,62 +830,76 @@ def main():
                                     # Display values in clean grid
                                     col1, col2 = st.columns(2)
                                     with col1:
-                                        st.metric("Baseline", format_value(baseline, metric), help="Starting value")
-                                        st.metric("Actual", format_value(actual, metric), help="Current value")
+                                        st.metric("Baseline", format_value(baseline, metric), help="Starting value", delta=None)
+                                        st.metric("Actual", format_value(actual, metric), help="Current value", delta=None)
                                     with col2:
-                                        st.metric("Target 2030", format_value(target_2030, metric), help="Target value")
-                                        # Progress percentage
-                                        st.metric("Progress", f"{progress:.1f}%", help="Progress toward target")
+                                        st.metric("Target 2030", format_value(target_2030, metric), help="Target value", delta=None)
+                                        # Progress percentage with color
+                                        progress_color_hex = "#059669" if progress >= 80 else "#d97706" if progress >= 50 else "#dc2626"
+                                        st.markdown(f"""
+                                        <div style="padding: 0.5rem 0;">
+                                            <div style="font-size: 0.875rem; color: #6b7280; margin-bottom: 0.25rem;">Progress</div>
+                                            <div style="font-size: 1.5rem; font-weight: 600; color: {progress_color_hex};">{progress:.1f}%</div>
+                                        </div>
+                                        """, unsafe_allow_html=True)
                                     
                                     # Progress bar with cleaner style
-                                    st.markdown("<br>", unsafe_allow_html=True)
-                                    progress_color = "#00cc00" if progress >= 80 else "#ff9900" if progress >= 50 else "#cc0000"
+                                    st.markdown("<div style='height: 0.5rem;'></div>", unsafe_allow_html=True)
+                                    progress_color = "#059669" if progress >= 80 else "#d97706" if progress >= 50 else "#dc2626"
                                     st.markdown(f"""
-                                    <div style="background-color: #f0f0f0; border-radius: 10px; height: 20px; margin: 0.5rem 0;">
-                                        <div style="background-color: {progress_color}; width: {progress}%; height: 100%; border-radius: 10px; transition: width 0.3s ease;"></div>
+                                    <div class="progress-container" style="background-color: #f3f4f6; border-radius: 8px; height: 10px; overflow: hidden; margin: 0.75rem 0;">
+                                        <div style="background: linear-gradient(90deg, {progress_color} 0%, {progress_color}dd 100%); width: {progress}%; height: 100%; border-radius: 8px; transition: width 0.3s ease;"></div>
                                     </div>
                                     """, unsafe_allow_html=True)
                                     
-                                    # Status badge
+                                    # Status badge - cleaner design
+                                    status_bg = "#ecfdf5" if progress >= 80 else "#fef3c7" if progress >= 50 else "#fee2e2"
                                     st.markdown(f"""
-                                    <div style="margin: 0.75rem 0; padding: 0.5rem; background-color: {progress_color}20; border-left: 3px solid {progress_color}; border-radius: 4px;">
-                                        <strong>Status:</strong> <span class='status-{status.lower().replace(' ', '-')}'>{status}</span> ({progress:.1f}%)
+                                    <div style="margin: 1rem 0 0.75rem 0; padding: 0.75rem 1rem; background-color: {status_bg}; border-left: 3px solid {progress_color}; border-radius: 6px;">
+                                        <div style="font-size: 0.875rem; color: #6b7280; margin-bottom: 0.25rem;">Status</div>
+                                        <div style="font-size: 1rem; font-weight: 600;">
+                                            <span class='status-{status.lower().replace(' ', '-')}'>{status}</span>
+                                            <span style="color: #6b7280; font-weight: 400;"> ({progress:.1f}%)</span>
+                                        </div>
                                     </div>
                                     """, unsafe_allow_html=True)
                                     
-                                    # Delta to target
+                                    # Delta to target - cleaner info box
                                     delta = actual - target_2030
                                     if lower_is_better:
-                                        # For lower-is-better metrics, negative delta is good
                                         if delta <= 0:
                                             delta_text = f"{format_value(abs(delta), metric)} below target"
-                                            delta_color = "#00cc00"
+                                            delta_color = "#059669"
+                                            delta_bg = "#ecfdf5"
                                         else:
                                             delta_text = f"{format_value(delta, metric)} above target"
-                                            delta_color = "#cc0000"
+                                            delta_color = "#dc2626"
+                                            delta_bg = "#fee2e2"
                                     else:
-                                        # For higher-is-better metrics, positive delta is good
                                         if delta >= 0:
                                             delta_text = f"+{format_value(delta, metric)} above target"
-                                            delta_color = "#00cc00"
+                                            delta_color = "#059669"
+                                            delta_bg = "#ecfdf5"
                                         else:
                                             delta_text = f"{format_value(abs(delta), metric)} below target"
-                                            delta_color = "#cc0000"
+                                            delta_color = "#dc2626"
+                                            delta_bg = "#fee2e2"
                                     
                                     st.markdown(f"""
-                                    <div style="margin-top: 0.5rem; padding: 0.5rem; background-color: #f8f9fa; border-radius: 4px; font-size: 0.9rem;">
-                                        <strong>Gap to Target:</strong> <span style="color: {delta_color}">{delta_text}</span>
+                                    <div style="margin-top: 0.75rem; padding: 0.75rem 1rem; background-color: {delta_bg}; border-radius: 6px; border: 1px solid {delta_color}20;">
+                                        <div style="font-size: 0.875rem; color: #6b7280; margin-bottom: 0.25rem;">Gap to Target</div>
+                                        <div style="font-size: 0.95rem; font-weight: 600; color: {delta_color};">{delta_text}</div>
                                     </div>
                                     """, unsafe_allow_html=True)
                                 else:
                                     st.warning("Unable to calculate progress (missing baseline or target)")
                             else:
-                                st.warning("No performance data available")
+                                st.info("No performance data available")
                                 col1, col2 = st.columns(2)
                                 with col1:
-                                    st.metric("Baseline", format_value(baseline, metric))
+                                    st.metric("Baseline", format_value(baseline, metric), delta=None)
                                 with col2:
-                                    st.metric("Target 2030", format_value(target_2030, metric))
+                                    st.metric("Target 2030", format_value(target_2030, metric), delta=None)
                             
                             # Close metric card div
                             st.markdown("</div>", unsafe_allow_html=True)
