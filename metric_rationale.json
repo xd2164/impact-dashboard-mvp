@@ -1,0 +1,33 @@
+{
+  "# of Math Courseware Available": {
+    "rationale": "Tracks development and deployment of TPP-aligned gateway math courseware. By Fall 2028, Learnvia aims to publish at least five new courseware products. This demonstrates platform maturity and content coverage essential for scaling impact.",
+    "target_rationale": "With strong technical and operational talent, CMU's expertise in STEM education and AI, and the foundation's track record, delivering five high-quality courseware by 2030 is ambitious but achievable. Early Calculus 1 launch demonstrates execution capability.",
+    "data_availability": "Counted from Learnvia platform releases. Updated quarterly as new courseware launches."
+  },
+  "# of Student Users Served per AY": {
+    "rationale": "Measures platform adoption and annual reach. By 2030, Learnvia aims to reach 180,000 students annually (about 6% of 2.7M U.S. gateway math enrollments), establishing a credible foothold for large-scale growth.",
+    "target_rationale": "Incumbents like Pearson MyLab and McGraw Hill ALEKS already serve hundreds of thousands of students, proving market demand. Learnvia enters well-capitalized with differentiated advantages: AI-enabled, evidence-based, free to students.",
+    "data_availability": "Real-time tracking from Learnvia platform. Disaggregated by post-secondary vs. high school (DE/DC), and by race/ethnicity and Pell status where available."
+  },
+  "Course Success Rate - Calculus I": {
+    "rationale": "Gateway math courses are primary barriers to degree completion, especially for first-generation and underrepresented students. Improving course success rates directly impacts persistence and completion.",
+    "target_rationale": "Target: 80% pass rate OR +10 percentage points (whichever requires smaller lift). Targets account for focus institutions typically starting 5-10pp below baseline rates. By 2030, this translates to 144K students/year who pass because of Learnvia courseware.",
+    "data_availability": "Reported per term (Fall/Spring) from institution records. Disaggregated by race/ethnicity and Pell status."
+  },
+  "Equity Gap - Calculus": {
+    "rationale": "Closing equity gaps is central to the foundation's mission. Reducing gaps by 50% by 2030 demonstrates meaningful progress toward equitable outcomes for underrepresented students.",
+    "target_rationale": "50% reduction from baseline (13.4% → 6.7%) represents ambitious but achievable goal. Focus on institutions serving high populations of focus students maximizes equity impact.",
+    "data_availability": "Calculated from course success rate data disaggregated by race/ethnicity. Reported per term from institution records."
+  },
+  "Cost per Course Development": {
+    "rationale": "Tracking development costs enables efficiency improvements and sustainability planning. Current estimates: $2-3M per course. AI advances may reduce costs by 2030.",
+    "target_rationale": "AI-enabled development tools can streamline courseware creation, reducing costs from $2.5M to $2M by 2030 and $1.5M by 2045 while maintaining quality.",
+    "data_availability": "From finance records. Updated when new courseware completes development phase."
+  },
+  "Efficacy Research Studies Count": {
+    "rationale": "Evidence base demonstrating causal impact strengthens platform credibility and guides continuous improvement. RCT and quasi-experimental studies provide validation of courseware effectiveness.",
+    "target_rationale": "Growing evidence base (from 2 to 4+ studies by 2030) demonstrates statistically significant improvements in learning outcomes and supports scaling decisions.",
+    "data_availability": "Tracked from research database. Updated upon publication of peer-reviewed studies."
+  }
+}
+

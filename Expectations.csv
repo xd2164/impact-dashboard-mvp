@@ -1,0 +1,20 @@
+Initiative ID,Metric,Baseline,Target 2030,Target 2045,Expectation Type,Category
+LEARNVIA-001,# of Math Courseware Available,1,5,20,topline,Adoption
+LEARNVIA-001,# of Student Users Served per AY,0,180000,1000000,topline,Adoption
+LEARNVIA-001,# of Student Users Cumulative,0,355000,5000000,topline,Adoption
+LEARNVIA-001,# of Student Users in PS Institutions (AY),0,168000,900000,topline,Adoption
+LEARNVIA-001,# of Student Users in HS DE/DC (AY),0,12000,100000,topline,Adoption
+LEARNVIA-001,# of Faculty Adopters Cumulative,0,2265,10000,topline,Adoption
+LEARNVIA-001,# of Institutions Cumulative,0,450,2000,topline,Adoption
+LEARNVIA-002,Course Success Rate - Calculus I,77,80,85,topline,Continuity
+LEARNVIA-002,Course Success Rate - Calculus II,74,80,85,topline,Continuity
+LEARNVIA-002,Course Success Rate - Statistical Reasoning,73,80,85,topline,Continuity
+LEARNVIA-002,Course Success Rate - PreCalculus,70,80,85,topline,Continuity
+LEARNVIA-002,Equity Gap - Calculus,13.4,6.7,3.0,topline,Continuity
+LEARNVIA-002,Equity Gap - Statistical Reasoning,19.1,9.55,4.0,topline,Continuity
+LEARNVIA-002,Equity Gap - PreCalculus,13.5,6.75,3.0,topline,Continuity
+LEARNVIA-002,Efficacy Research Studies Count,2,4,10,intermediate,Social ROI
+LEARNVIA-002,Faculty Satisfaction Rate,0,80,90,intermediate,Social ROI
+LEARNVIA-002,Student Satisfaction Rate,0,80,90,intermediate,Social ROI
+LEARNVIA-003,Cost per Course Development,2500000,2000000,1500000,intermediate,Social ROI
+LEARNVIA-003,Cost to Student,0,0,0,intermediate,Social ROI

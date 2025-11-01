@@ -1,0 +1,54 @@
+Initiative ID,Metric,Year,Actual Value,Data Source,Quality
+LEARNVIA-001,# of Math Courseware Available,2022,0,Learnvia Platform,High
+LEARNVIA-001,# of Math Courseware Available,2023,0,Learnvia Platform,High
+LEARNVIA-001,# of Math Courseware Available,2024,1,Learnvia Platform,High
+LEARNVIA-001,# of Student Users Served per AY,2022,0,Learnvia Platform,High
+LEARNVIA-001,# of Student Users Served per AY,2023,500,Learnvia Platform,High
+LEARNVIA-001,# of Student Users Served per AY,2024,1500,Learnvia Platform,High
+LEARNVIA-001,# of Student Users Cumulative,2022,0,Learnvia Platform,High
+LEARNVIA-001,# of Student Users Cumulative,2023,500,Learnvia Platform,High
+LEARNVIA-001,# of Student Users Cumulative,2024,2000,Learnvia Platform,High
+LEARNVIA-001,# of Student Users in PS Institutions (AY),2022,0,Learnvia Platform,High
+LEARNVIA-001,# of Student Users in PS Institutions (AY),2023,450,Learnvia Platform,High
+LEARNVIA-001,# of Student Users in PS Institutions (AY),2024,1400,Learnvia Platform,High
+LEARNVIA-001,# of Student Users in HS DE/DC (AY),2022,0,Learnvia Platform,Medium
+LEARNVIA-001,# of Student Users in HS DE/DC (AY),2023,50,Learnvia Platform,Medium
+LEARNVIA-001,# of Student Users in HS DE/DC (AY),2024,100,Learnvia Platform,Medium
+LEARNVIA-001,# of Faculty Adopters Cumulative,2022,0,Learnvia Platform,High
+LEARNVIA-001,# of Faculty Adopters Cumulative,2023,5,Learnvia Platform,High
+LEARNVIA-001,# of Faculty Adopters Cumulative,2024,15,Learnvia Platform,High
+LEARNVIA-001,# of Institutions Cumulative,2022,0,Learnvia Platform,High
+LEARNVIA-001,# of Institutions Cumulative,2023,2,Learnvia Platform,High
+LEARNVIA-001,# of Institutions Cumulative,2024,5,Learnvia Platform,High
+LEARNVIA-002,Course Success Rate - Calculus I,2022,75,Institution Records,High
+LEARNVIA-002,Course Success Rate - Calculus I,2023,76,Institution Records,High
+LEARNVIA-002,Course Success Rate - Calculus I,2024,77,Institution Records,High
+LEARNVIA-002,Course Success Rate - Calculus II,2022,72,Institution Records,High
+LEARNVIA-002,Course Success Rate - Calculus II,2023,73,Institution Records,High
+LEARNVIA-002,Course Success Rate - Calculus II,2024,74,Institution Records,High
+LEARNVIA-002,Course Success Rate - Statistical Reasoning,2022,71,Institution Records,High
+LEARNVIA-002,Course Success Rate - Statistical Reasoning,2023,72,Institution Records,High
+LEARNVIA-002,Course Success Rate - Statistical Reasoning,2024,73,Institution Records,High
+LEARNVIA-002,Course Success Rate - PreCalculus,2022,68,Institution Records,High
+LEARNVIA-002,Course Success Rate - PreCalculus,2023,69,Institution Records,High
+LEARNVIA-002,Course Success Rate - PreCalculus,2024,70,Institution Records,High
+LEARNVIA-002,Equity Gap - Calculus,2022,14.5,Institution Records,High
+LEARNVIA-002,Equity Gap - Calculus,2023,14.0,Institution Records,High
+LEARNVIA-002,Equity Gap - Calculus,2024,13.4,Institution Records,High
+LEARNVIA-002,Equity Gap - Statistical Reasoning,2022,20.0,Institution Records,High
+LEARNVIA-002,Equity Gap - Statistical Reasoning,2023,19.5,Institution Records,High
+LEARNVIA-002,Equity Gap - Statistical Reasoning,2024,19.1,Institution Records,High
+LEARNVIA-002,Equity Gap - PreCalculus,2022,14.0,Institution Records,High
+LEARNVIA-002,Equity Gap - PreCalculus,2023,13.7,Institution Records,High
+LEARNVIA-002,Equity Gap - PreCalculus,2024,13.5,Institution Records,High
+LEARNVIA-002,Efficacy Research Studies Count,2022,1,Research Database,High
+LEARNVIA-002,Efficacy Research Studies Count,2023,1,Research Database,High
+LEARNVIA-002,Efficacy Research Studies Count,2024,2,Research Database,High
+LEARNVIA-002,Faculty Satisfaction Rate,2024,0,Survey Data,Medium
+LEARNVIA-002,Student Satisfaction Rate,2024,0,Survey Data,Medium
+LEARNVIA-003,Cost per Course Development,2022,2800000,Finance Records,High
+LEARNVIA-003,Cost per Course Development,2023,2650000,Finance Records,High
+LEARNVIA-003,Cost per Course Development,2024,2500000,Finance Records,High
+LEARNVIA-003,Cost to Student,2022,0,Platform Data,High
+LEARNVIA-003,Cost to Student,2023,0,Platform Data,High
+LEARNVIA-003,Cost to Student,2024,0,Platform Data,High
